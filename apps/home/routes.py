@@ -24,6 +24,20 @@ def mociones_template():
     try:
         # Detect the current page
         segment = get_segment(request)
+        ## ADD
+        if 'Nombre' in request.form:
+            Nombre = request.form['Nombre']
+            PIN = request.form['PIN']
+            Descripccion = request.form['Descripccion']
+            stmt =  Mociones(Mocion=Nombre,Description=Descripccion,Status='Open',Results='In Progress')
+            db.session.add(stmt)
+            db.session.commit()
+
+
+        ## View
+
+
+
 
 
         # Serve the file (if exists) from app/templates/home/FILE.html
