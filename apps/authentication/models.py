@@ -36,6 +36,17 @@ class Users(db.Model, UserMixin):
         return str(self.username)
 
 
+class Mociones(db.Model):
+    __tablename__= 'Mociones'
+    Mocion_ID = db.Column(db.Integer,primary_key=True)
+    Mocion = db.Column(db.Text(500))
+    Description = db.Column(db.Text(1000) , unique=False)
+    Status = db.Column(db.String(20)  , unique=False)
+    Results = db.Column(db.String(20),unique=False)
+
+
+
+
 @login_manager.user_loader
 def user_loader(id):
     return Users.query.filter_by(id=id).first()
