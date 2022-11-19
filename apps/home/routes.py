@@ -40,6 +40,7 @@ def mociones_template():
 
 
 
+
         # Serve the file (if exists) from app/templates/home/FILE.html
         return render_template("home/" + segment, segment=segment)
 
