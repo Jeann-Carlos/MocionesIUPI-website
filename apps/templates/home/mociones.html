@@ -212,10 +212,12 @@
         </div>
       </div>-->
 
+
+
+
       <div class="row">
         <div class="col-12">
           <div class="card mb-4" >
-             <a href="add_mociones" > <img  src="/static/assets/img/add.png" alt="Italian Trulli" style="width:20px;height:20px;position:absolute;right:15px;top:65px"></a>
             <div class="card-header pb-0" >
               <h6>Lista De Mociones</h6>
             </div>
@@ -233,25 +235,23 @@
                     </tr>
                   </thead>
                   <tbody>
+                  {% for Mociones in stmt %}
                     <tr>
                       <td>
                         <div class="d-flex px-2">
-                          <div>
-                            <img src="{{ config.ASSETS_ROOT }}/img/small-logos/logo-spotify.svg" class="avatar avatar-sm rounded-circle me-2" alt="spotify">
-                          </div>
                           <div class="my-auto">
-                            <h6 class="mb-0 text-sm">Spotify</h6>
+                            <h6 class="mb-0 text-sm">{{Mociones.Mocion}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">$2,500</p>
+                        <p class="text-sm font-weight-bold mb-0">{{Mociones.Description}}</p>
                       </td>
                       <td>
-                        <span class="text-xs font-weight-bold">working</span>
+                        <span class="text-xs font-weight-bold">{{Mociones.Status}}</span>
                       </td>
                        <td>
-                        <span class="text-xs font-weight-bold">working</span>
+                        <span class="text-xs font-weight-bold">{{Mociones.Results}}</span>
                       </td>
                       <td class="align-middle text-center">
                         <div class="d-flex align-items-center justify-content-center">
@@ -266,6 +266,7 @@
                       <td> <img src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
 
                     </tr>
+                  {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -273,6 +274,10 @@
           </div>
         </div>
       </div>
+
+
+
+
     <div class="container-fluid py-4">
     <form name="add_mocion" action="mociones.html" method="POST">
       <div class="row">
@@ -301,13 +306,13 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">PIN</label>
-                    <input class="form-control" name="PIN" type="text" value="Lucky">
+                    <input class="form-control" name="PIN" id="PIN" type="text" value="Lucky">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Generate</label>
-                    <input class="form-control"   type="button" value="Generate PIN">
+                    <input class="form-control" onclick="generatePIN()"  type="button" value="Generate PIN">
                   </div>
                 </div>
               </div>
@@ -316,7 +321,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <input class="form-control" name="Descripccion" type="text" value="">
+                    <textarea class="form-control" name="Descripccion"  style="height:200px"  type="text" value=""> </textarea>
                   </div>
                 </div>
               </div>
@@ -346,4 +351,14 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+
+
+      <script>
+    function generatePIN() {
+    const a = Math.floor(Math.random() * (999999-1) + 1);
+    document.getElementById("PIN").value = a;
+        }
+      </script>
+
+{% endblock javascripts %}

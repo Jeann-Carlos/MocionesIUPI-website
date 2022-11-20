@@ -38,7 +38,7 @@ class Users(db.Model, UserMixin):
 
 class Mociones(db.Model):
     __tablename__= 'Mociones'
-    Mocion_ID = db.Column(db.Integer,primary_key=True)
+    PIN = db.Column(db.Integer,primary_key=True)
     Mocion = db.Column(db.Text(500))
     Description = db.Column(db.Text(1000) , unique=False)
     Status = db.Column(db.String(20)  , unique=False)

@@ -8,7 +8,7 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-from sqlalchemy import Table, Column, Integer, String, MetaData,insert
+from sqlalchemy import Table, Column, Integer, String, MetaData, insert, select
 from apps.authentication.models import Mociones
 @blueprint.route('/index')
 @login_required
@@ -27,22 +27,19 @@ def mociones_template():
         ## ADD
         if 'Nombre' in request.form:
             Nombre = request.form['Nombre']
-            PIN = request.form['PIN']
+            PIN =  int(request.form['PIN'])
             Descripccion = request.form['Descripccion']
-            stmt =  Mociones(Mocion=Nombre,Description=Descripccion,Status='Open',Results='In Progress')
+            stmt =Mociones(PIN=PIN,Mocion=Nombre,Description=Descripccion,Status='Open',Results='In Progress')
             db.session.add(stmt)
             db.session.commit()
 
 
         ## View
 
-
-
-
-
+        stmt = Mociones.query.all()
 
         # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + segment, segment=segment)
+        return render_template("home/" + segment, segment=segment,stmt=stmt)
 
 
     except TemplateNotFound:
