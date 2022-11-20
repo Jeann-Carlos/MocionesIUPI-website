@@ -37,7 +37,7 @@ def mociones_template():
         ## View
         stmt = Mociones.query.all()
         # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + segment, segment=segment,stmt=stmt)
+        return render_template("home/mociones.html", segment=segment,stmt=stmt)
 
 
     except TemplateNotFound:
@@ -53,7 +53,7 @@ def mociones_template():
 def lista_template():
     try:
 
-        return render_template('home/lista.html')
+        return render_template('home/lista.html',segment=get_segment(request))
 
     except TemplateNotFound:
         return render_template('home/page-404.html'), 404
@@ -71,9 +71,9 @@ def get_segment(request):
         segment = request.path.split('/')[-1]
 
         if segment == '':
-            segment = 'mociones.html'
+            segment = 'mociones'
 
-        return segment
+        return  segment.split(".")[0]
 
     except:
         return None
