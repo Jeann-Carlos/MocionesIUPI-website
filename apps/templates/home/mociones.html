@@ -235,23 +235,24 @@
                     </tr>
                   </thead>
                   <tbody>
+
                   {% for Mociones in stmt %}
                     <tr>
                       <td>
                         <div class="d-flex px-2">
                           <div class="my-auto">
-                            <h6 class="mb-0 text-sm">{{Mociones.Mocion}}</h6>
+                            <h6 id="mocion{{loop.index}}" class="mb- text-sm">{{Mociones.Mocion}}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">{{Mociones.Description}}</p>
+                        <p id="descripccion{{loop.index}}" class="text-sm font-weight-bold mb-0">{{Mociones.Description}}</p>
                       </td>
                       <td>
-                        <span class="text-xs font-weight-bold">{{Mociones.Status}}</span>
+                        <span id="status{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Status}}</span>
                       </td>
                        <td>
-                        <span class="text-xs font-weight-bold">{{Mociones.Results}}</span>
+                        <span id="results{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Results}}</span>
                       </td>
                       <td class="align-middle text-center">
                         <div class="d-flex align-items-center justify-content-center">
@@ -263,9 +264,10 @@
                           </div>
                         </div>
                       </td>
-                      <td> <img src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
+                      <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </> </td>
 
                     </tr>
+
                   {% endfor %}
                   </tbody>
                 </table>
@@ -294,7 +296,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Nombre</label>
-                    <input class="form-control" name="Nombre" type="text">
+                    <input class="form-control" id="nombre" name="Nombre" value="" type="text">
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -321,7 +323,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <textarea class="form-control" name="Descripccion"  style="height:200px"  type="text" value=""> </textarea>
+                    <textarea class="form-control" id="descripccion" name="Descripccion"  style="height:200px"  type="text" value=""> </textarea>
                   </div>
                 </div>
               </div>
@@ -359,6 +361,17 @@
     const a = Math.floor(Math.random() * (999999-1) + 1);
     document.getElementById("PIN").value = a;
         }
+
+
+
       </script>
+
+ <script>
+     function editMOCION(clicked_id) {
+        document.getElementById("nombre").value = document.getElementById("mocion"+clicked_id).innerHTML;
+         document.getElementById("descripccion").value = document.getElementById("descripccion"+clicked_id).innerHTML;
+        }
+ </script>
+
 
 {% endblock javascripts %}

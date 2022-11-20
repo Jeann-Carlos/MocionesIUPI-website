@@ -10,11 +10,11 @@ from flask_login import login_required
 from jinja2 import TemplateNotFound
 from sqlalchemy import Table, Column, Integer, String, MetaData, insert, select
 from apps.authentication.models import Mociones
-@blueprint.route('/index')
-@login_required
-def index():
-
-    return render_template('home/mociones.html', segment='mociones')
+# @blueprint.route('/index')
+# @login_required
+# def index():
+#
+#     return render_template('home/mociones.html', segment='mociones')
 
 
 @blueprint.route('/mociones.html', methods=['GET', 'POST'])
@@ -35,9 +35,7 @@ def mociones_template():
 
 
         ## View
-
         stmt = Mociones.query.all()
-
         # Serve the file (if exists) from app/templates/home/FILE.html
         return render_template("home/" + segment, segment=segment,stmt=stmt)
 
