@@ -265,7 +265,7 @@
                       <td>
                         <span id="pin{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.PIN}}</span>
                       </td>
-                      <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
+                      <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img id="borrar{{loop.index}}" onclick="borrarMOCION(this.id)" src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
 
                     </tr>
 
@@ -324,14 +324,14 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <textarea class="form-control" id="descripccion" name="Descripccion"  style="height:200px"  type="text" value=""> </textarea>
+                    <textarea class="form-control" id="descripccion" name="Descripccion"  style="height:200px" > </textarea>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <input class="form-control" type="submit" value="Add Mocion">
+                    <input class="form-control" name="Add" type="submit" value="Add Mocion">
                   </div>
                 </div>
               </div>
@@ -372,6 +372,15 @@
         document.getElementById("nombre").value = document.getElementById("mocion"+clicked_id).innerHTML;
          document.getElementById("descripccion").value = document.getElementById("descripccion"+clicked_id).innerHTML;
             document.getElementById("PIN").value = document.getElementById("pin"+clicked_id).innerHTML;
+        }
+ </script>
+ <script>
+     function borrarMOCION(clicked_id) {
+     let str = clicked_id;
+     let id_mocion =  document.getElementById("pin"+str.split('r')[3]).innerHTML;
+        if (confirm('Seguro que quieres borrar la mocion con pin='+id_mocion+'?')){
+              window.location.assign("./mociones.html?borrar="+id_mocion);
+        }
         }
  </script>
 

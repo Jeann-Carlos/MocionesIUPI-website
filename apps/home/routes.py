@@ -25,7 +25,11 @@ def mociones_template():
         # Detect the current page
         segment = get_segment(request)
         ## ADD
-        if 'Nombre' in request.form:
+
+        if 'borrar' in request.args:
+            Mociones.query.filter_by(PIN=int(request.args['borrar'])).delete()
+            db.session.commit()
+        if 'Add' in request.form:
 
             if  Mociones.query.filter_by(PIN=int(request.form['PIN'])).first():
                 Mociones.query.filter_by(PIN=int(request.form['PIN'])).delete()
@@ -36,9 +40,6 @@ def mociones_template():
             stmt =Mociones(PIN=PIN,Mocion=Nombre,Description=Descripccion,Status='Open',Results='In Progress')
             db.session.add(stmt)
             db.session.commit()
-
-
-
 
         ## View
         stmt = Mociones.query.all()
