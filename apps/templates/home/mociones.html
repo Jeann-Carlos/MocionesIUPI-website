@@ -212,9 +212,6 @@
         </div>
       </div>-->
 
-
-
-
       <div class="row">
         <div class="col-12">
           <div class="card mb-4" >
@@ -231,6 +228,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Result</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">PIN</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -264,7 +262,10 @@
                           </div>
                         </div>
                       </td>
-                      <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </> </td>
+                      <td>
+                        <span id="pin{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.PIN}}</span>
+                      </td>
+                      <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
 
                     </tr>
 
@@ -370,6 +371,7 @@
      function editMOCION(clicked_id) {
         document.getElementById("nombre").value = document.getElementById("mocion"+clicked_id).innerHTML;
          document.getElementById("descripccion").value = document.getElementById("descripccion"+clicked_id).innerHTML;
+            document.getElementById("PIN").value = document.getElementById("pin"+clicked_id).innerHTML;
         }
  </script>
 

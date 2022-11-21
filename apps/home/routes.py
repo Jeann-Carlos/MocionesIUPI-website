@@ -21,11 +21,15 @@ from apps.authentication.models import Mociones
 @login_required
 def mociones_template():
 
-    try:
+
         # Detect the current page
         segment = get_segment(request)
         ## ADD
         if 'Nombre' in request.form:
+
+            if  Mociones.query.filter_by(PIN=int(request.form['PIN'])).first():
+                Mociones.query.filter_by(PIN=int(request.form['PIN'])).delete()
+                db.session.commit()
             Nombre = request.form['Nombre']
             PIN =  int(request.form['PIN'])
             Descripccion = request.form['Descripccion']
@@ -34,17 +38,15 @@ def mociones_template():
             db.session.commit()
 
 
+
+
         ## View
         stmt = Mociones.query.all()
         # Serve the file (if exists) from app/templates/home/FILE.html
         return render_template("home/mociones.html", segment=segment,stmt=stmt)
 
 
-    except TemplateNotFound:
-        return render_template('home/page-404.html'), 404
 
-    except:
-        return render_template('home/page-500.html'), 500
 
 
 
