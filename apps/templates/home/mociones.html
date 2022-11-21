@@ -223,12 +223,13 @@
                 <table class="table align-items-center justify-content-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Result</th>
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PIN</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
-                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">PIN</th>
+
                       <th></th>
                     </tr>
                   </thead>
@@ -237,11 +238,7 @@
                   {% for Mociones in stmt %}
                     <tr>
                       <td>
-                        <div class="d-flex px-2">
-                          <div class="my-auto">
-                            <h6 id="mocion{{loop.index}}" class="mb- text-sm">{{Mociones.Mocion}}</h6>
-                          </div>
-                        </div>
+                            <p id="mocion{{loop.index}}" class="text-sm font-weight-bold mb-0">{{Mociones.Mocion}}</p>
                       </td>
                       <td>
                         <p id="descripccion{{loop.index}}" class="text-sm font-weight-bold mb-0">{{Mociones.Description}}</p>
@@ -251,6 +248,9 @@
                       </td>
                        <td>
                         <span id="results{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Results}}</span>
+                      </td>
+                      <td>
+                        <span id="pin{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.PIN}}</span>
                       </td>
                       <td class="align-middle text-center">
                         <div class="d-flex align-items-center justify-content-center">
@@ -262,9 +262,7 @@
                           </div>
                         </div>
                       </td>
-                      <td>
-                        <span id="pin{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.PIN}}</span>
-                      </td>
+
                       <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img id="borrar{{loop.index}}" onclick="borrarMOCION(this.id)" src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
 
                     </tr>
