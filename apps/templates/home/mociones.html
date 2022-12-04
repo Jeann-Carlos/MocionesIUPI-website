@@ -236,7 +236,7 @@
                   <tbody>
 
                   {% for Mociones in stmt %}
-                    <tr>
+                    <tr onclick="window.location='mociones/view/{{Mociones.PIN}}';" style="cursor: pointer;">
                       <td>
                             <p id="mocion{{loop.index}}" class="text-sm font-weight-bold mb-0">{{Mociones.Mocion}}</p>
                       </td>

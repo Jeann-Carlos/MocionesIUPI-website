@@ -35,6 +35,18 @@ class Users(db.Model, UserMixin):
     def __repr__(self):
         return str(self.username)
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class Mociones_Votos(db.Model):
+    __tablename__= 'Mociones_Votos'
+    Mocion_ID = db.Column(db.Integer,db.ForeignKey('Mociones.PIN'),primary_key=True)
+    Voto = db.Column(db.String(40))
+    Nombre_Votante = db.Column(db.String(40), unique=True)
+    Email_Votante = db.Column(db.String(40)  , unique=True)
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class Mociones(db.Model):
     __tablename__= 'Mociones'
@@ -43,7 +55,8 @@ class Mociones(db.Model):
     Description = db.Column(db.Text(1000) , unique=False)
     Status = db.Column(db.String(20)  , unique=False)
     Results = db.Column(db.String(20),unique=False)
-
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 

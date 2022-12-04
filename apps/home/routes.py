@@ -2,14 +2,23 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+import requests
+from flask_restx import abort
+from google.oauth2 import id_token
+
 import apps.authentication.models
 from apps import db
+from apps.authentication.routes import flow, GOOGLE_CLIENT_ID
 from apps.home import blueprint
-from flask import render_template, request
+from flask import render_template, request, jsonify, session
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from sqlalchemy import Table, Column, Integer, String, MetaData, insert, select
 from apps.authentication.models import Mociones
+from pip._vendor import cachecontrol
+import google.auth.transport.requests
+from apps.authentication.models import Mociones_Votos
+
 # @blueprint.route('/index')
 # @login_required
 # def index():
@@ -17,7 +26,7 @@ from apps.authentication.models import Mociones
 #     return render_template('home/mociones.html', segment='mociones')
 
 
-@blueprint.route('/mociones.html', methods=['GET', 'POST'])
+@blueprint.route('/mociones', methods=['GET', 'POST'])
 @login_required
 def mociones_template():
 
@@ -37,7 +46,7 @@ def mociones_template():
             Nombre = request.form['Nombre']
             PIN =  int(request.form['PIN'])
             Descripccion = request.form['Descripccion']
-            stmt =Mociones(PIN=PIN,Mocion=Nombre,Description=Descripccion,Status='Open',Results='In Progress')
+            stmt = Mociones(PIN=PIN,Mocion=Nombre,Description=Descripccion,Status='Open',Results='In Progress')
             db.session.add(stmt)
             db.session.commit()
 
@@ -51,7 +60,7 @@ def mociones_template():
 
 
 
-@blueprint.route('/lista.html')
+@blueprint.route('/lista')
 @login_required
 def lista_template():
     try:
@@ -63,6 +72,56 @@ def lista_template():
 
     except:
         return render_template('home/page-500.html'), 500
+
+@blueprint.route('mociones/view/<PIN>')
+@login_required
+def view_mociones(PIN):
+    for Mocion in db.session.query(Mociones_Votos, Mociones).join(Mociones).filter_by(PIN=PIN):
+        Mocion_data,Mocion_voto = Mocion
+        return render_template("home/mociones.html", segment=segment,stmt=stmt)
+
+
+
+
+@blueprint.route('/send',methods=['GET', 'POST'])
+def send_mociones():
+    if 'PIN' in request.args:
+        PIN = request.args['PIN']
+        for Mocion in db.session.query(Mociones).filter_by(PIN=PIN):
+                stmt = Mocion
+                return stmt.as_dict()
+        return{
+            'Error': 'No hay mocion con ese PIN.'
+        }
+    else:
+        return {
+            'Error': 'No hay atributo PIN encontrado.'
+        }
+
+@blueprint.route('/vote/<PIN>',methods=['GET', 'POST'])
+def get_vote(PIN):
+    flow.fetch_token(authorization_response=request.url)
+    if not session["state"]== request.args["state"]:
+        abort(500)
+    credentials = flow.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+    session["google_id"] = id_info.get("sub")
+    session["name"] = id_info.get("name")
+
+    if 'Voto' in request.args:
+        stmt = Mociones(Mocion_ID=PIN, Nombre_Votante=Nombre, Description=Descripccion, Status='Open', Results='In Progress')
+
+
+
+
 
 
 
