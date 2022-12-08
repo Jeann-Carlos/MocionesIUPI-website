@@ -76,10 +76,11 @@ def lista_template():
 @blueprint.route('mociones/view/<PIN>')
 @login_required
 def view_mociones(PIN):
+    segment = get_segment(request)
     for Mocion in db.session.query(Mociones_Votos, Mociones).join(Mociones).filter_by(PIN=PIN):
-        Mocion_data,Mocion_voto = Mocion
-        return render_template("home/mociones.html", segment=segment,stmt=stmt)
-
+        Mocion_voto,Mocion_data = Mocion
+        return render_template("home/billing.html",segment=segment, Mocion_data=Mocion_data,Mocion_voto=Mocion_voto)
+    return  abort(500)
 
 
 
