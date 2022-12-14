@@ -10,6 +10,7 @@ from flask_login import login_required
 from jinja2 import TemplateNotFound
 from sqlalchemy import Table, Column, Integer, String, MetaData, insert, select
 from apps.authentication.models import Mociones
+from apps.authentication.models import Users
 # @blueprint.route('/index')
 # @login_required
 # def index():
@@ -55,8 +56,8 @@ def mociones_template():
 @login_required
 def lista_template():
     try:
-
-        return render_template('home/lista.html',segment=get_segment(request))
+        Usuarios = Users.query.order_by(Users.id).all()
+        return render_template('home/lista.html',segment=get_segment(request),Usuarios=Usuarios)
 
     except TemplateNotFound:
         return render_template('home/page-404.html'), 404
