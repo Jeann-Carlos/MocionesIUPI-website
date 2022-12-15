@@ -80,6 +80,11 @@ def view_mociones(PIN):
     for Mocion in db.session.query(Mociones_Votos, Mociones).join(Mociones).filter_by(PIN=PIN):
         Mocion_voto,Mocion_data = Mocion
         return render_template("home/billing.html",segment=segment, Mocion_data=Mocion_data,Mocion_voto=Mocion_voto)
+    else:
+        for Mocion in db.session.query(Mociones).filter_by(PIN=PIN):
+            Mocion_data = Mocion
+            return render_template("home/billing.html", segment=segment, Mocion_data=Mocion_data)
+
     return  abort(500)
 
 

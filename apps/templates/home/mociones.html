@@ -236,23 +236,24 @@
                   <tbody>
 
                   {% for Mociones in stmt %}
-                    <tr onclick="window.location='mociones/view/{{Mociones.PIN}}';" style="cursor: pointer;">
-                      <td>
+
+                    <tr style="cursor: pointer;">
+                      <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                             <p id="mocion{{loop.index}}" class="text-sm font-weight-bold mb-0">{{Mociones.Mocion}}</p>
                       </td>
-                      <td>
+                      <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <p id="descripccion{{loop.index}}" class="text-sm font-weight-bold mb-0">{{Mociones.Description}}</p>
                       </td>
-                      <td>
+                      <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <span id="status{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Status}}</span>
                       </td>
-                       <td>
+                       <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <span id="results{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Results}}</span>
                       </td>
-                      <td>
+                      <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <span id="pin{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.PIN}}</span>
                       </td>
-                      <td class="align-middle text-center">
+                      <td class="align-middle text-center"  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <div class="d-flex align-items-center justify-content-center">
                           <span class="me-2 text-xs font-weight-bold">60%</span>
                           <div>
@@ -262,10 +263,9 @@
                           </div>
                         </div>
                       </td>
-
-                      <td>   <img id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px;"> <img id="borrar{{loop.index}}" onclick="borrarMOCION(this.id)" src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
-
+                       <td>   <img  id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px; "> <img id="borrar{{loop.index}}" onclick="borrarMOCION(this.id)" src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
                     </tr>
+
 
                   {% endfor %}
                   </tbody>
@@ -280,7 +280,7 @@
 
 
     <div class="container-fluid py-4">
-    <form name="add_mocion" action="mociones.html" method="POST">
+    <form name="add_mocion" action="mociones" method="POST">
       <div class="row">
         <div class="mb-4">
           <div class="card">
@@ -377,7 +377,7 @@
      let str = clicked_id;
      let id_mocion =  document.getElementById("pin"+str.split('r')[3]).innerHTML;
         if (confirm('Seguro que quieres borrar la mocion con pin='+id_mocion+'?')){
-              window.location.assign("./mociones.html?borrar="+id_mocion);
+              window.location.assign("./mociones?borrar="+id_mocion);
         }
         }
  </script>
