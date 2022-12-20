@@ -41,16 +41,19 @@ class Users(db.Model, UserMixin):
 
 class Mociones_Votos(db.Model):
     __tablename__= 'Mociones_Votos'
-    Mocion_ID = db.Column(db.Integer,db.ForeignKey('Mociones.PIN'),primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    Mocion_ID = db.Column(db.Integer,db.ForeignKey('Mociones.PIN'))
     Voto = db.Column(db.String(40))
     Nombre_Votante = db.Column(db.String(40), unique=True)
     Email_Votante = db.Column(db.String(40)  , unique=True)
+    Token_Participante = db.Column(db.String(40), unique=True)
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class Mociones(db.Model):
     __tablename__= 'Mociones'
-    PIN = db.Column(db.Integer,primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    PIN = db.Column(db.Integer)
     Mocion = db.Column(db.Text(500))
     Description = db.Column(db.Text(1000) , unique=False)
     Status = db.Column(db.String(20)  , unique=False)

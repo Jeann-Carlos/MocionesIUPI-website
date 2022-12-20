@@ -216,7 +216,7 @@
         <div class="col-12">
           <div class="card mb-4" >
             <div class="card-header pb-0" >
-              <h6>Lista De Mociones</h6>
+              <h6>Motion List</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -226,16 +226,17 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Result</th>
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Add/Remove</th>
                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">PIN</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Result</th>
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Votes</th>
 
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
 
-                  {% for Mociones in stmt %}
+                  {% for Mociones,votos in zip(stmt,lista_votos) %}
 
                     <tr style="cursor: pointer;">
                       <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
@@ -247,26 +248,22 @@
                       <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <span id="status{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Status}}</span>
                       </td>
-                       <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
-                        <span id="results{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Results}}</span>
-                      </td>
+
+                      <td>   <img  id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px; "> <img id="borrar{{loop.index}}" onclick="borrarMOCION(this.id)" src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
+
                       <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
                         <span id="pin{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.PIN}}</span>
                       </td>
-                      <td class="align-middle text-center"  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <span class="me-2 text-xs font-weight-bold">60%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"> </div>
-                            </div>
-                          </div>
-                        </div>
+
+                       <td  onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
+                        <span id="results{{loop.index}}" class="text-xs font-weight-bold">{{Mociones.Results}}</span>
                       </td>
-                       <td>   <img  id="{{loop.index}}" onclick="editMOCION(this.id)" src="/static/assets/img/editing.png" alt="Italian Trulli" style="width:20px;height:20px;object-position:0px -1px; "> <img id="borrar{{loop.index}}" onclick="borrarMOCION(this.id)" src="/static/assets/img/delete.png" alt="Italian Trulli" style="width:20px;height:20px;"> </td>
-                    </tr>
 
+                        <td  class="align-middle text-center" onclick="window.location='mociones/view/{{Mociones.PIN}}';event.stopPropagation();">
+                        <span id="votos{{loop.index}}" class="text-xs font-weight-bold">A Favor: {{votos.a_favor}} En Contra: {{votos.en_contra}}  Abstenido/a: {{votos.abstenido}}</span>
+                      </td>
 
+                     </tr>
                   {% endfor %}
                   </tbody>
                 </table>
@@ -286,7 +283,7 @@
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
-                <p class="mb-0">Add Mocion</p>
+                <p class="mb-0">Add Motion</p>
               </div>
             </div>
             <div class="card-body">
@@ -300,14 +297,14 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Timer</label>
-                    <input class="form-control" name="Timer" type="email">
+                    <label for="example-text-input"  class="form-control-label">Timer</label>
+                    <input class="form-control" id="Timer" placeholder="MM:SS (Motion will be close if timer is incorrect)" name="Timer" type="text">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">PIN</label>
-                    <input class="form-control" name="PIN" id="PIN" type="text" value="Lucky">
+                    <input class="form-control" placeholder=" Six digits (will be chosen random if not), example : 127474" name="PIN" id="PIN" type="text">
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -318,7 +315,7 @@
                 </div>
               </div>
               <hr class="horizontal dark">
-              <p class="text-uppercase text-sm">Descripccion</p>
+              <p class="text-uppercase text-sm">Description</p>
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
@@ -329,14 +326,13 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <input class="form-control" name="Add" type="submit" value="Add Mocion">
+                    <input class="form-control" name="Add" type="submit" value="Add Motion">
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </form>
       {% include "includes/footer.html" %}
@@ -357,7 +353,7 @@
 
       <script>
     function generatePIN() {
-    const a = Math.floor(Math.random() * (999999-1) + 1);
+    const a = Math.floor(Math.random() * (999999-100000) + 100000);
     document.getElementById("PIN").value = a;
         }
 
