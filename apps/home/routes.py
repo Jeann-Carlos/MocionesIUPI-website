@@ -166,9 +166,9 @@ def lista_template():
 def create_plot(vote,Mocion_name):
     plt.figure(figsize=(20, 10))
     categories = ['A Favor', 'En Contra', 'Abstenido/a']
-    plt.title(f'{Mocion_name} votes')
-    plt.xlabel('Cantidad de votos')
-    plt.ylabel('Tipo de voto')
+    plt.title(f'{Mocion_name} Votes')
+    plt.xlabel('Vote Quantity')
+    plt.ylabel('Vote Type')
     plt.barh(categories, [vote.a_favor, vote.en_contra, vote.abstenido])
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
