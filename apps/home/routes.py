@@ -6,26 +6,22 @@ import base64
 import io
 import random
 import threading
-import time
-from pycryptodomex import AES, pad, unpad
-import requests
-from flask_restx import abort
-from google.oauth2 import id_token
+
 import matplotlib
+from Cryptodome.Cipher import AES
+from Cryptodome.Util.Padding import unpad
+from flask_restx import abort
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import apps.authentication.models
 from apps import db
-from apps.authentication.routes import flow, GOOGLE_CLIENT_ID
 from apps.home import blueprint
-from flask import render_template, request, jsonify, session
+from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-from sqlalchemy import Table, Column, Integer, String, MetaData, insert, select, func, case, bindparam
+from sqlalchemy import func, case
 from apps.authentication.models import Mociones
 from apps.authentication.models import Users
-from pip._vendor import cachecontrol
-import google.auth.transport.requests
 from apps.authentication.models import Mociones_Votos
 from run import app
 
