@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_login import UserMixin
+from sqlalchemy import func
 
 from apps import db, login_manager
 
@@ -47,6 +48,7 @@ class Mociones_Votos(db.Model):
     Nombre_Votante = db.Column(db.String(40), unique=True)
     Email_Votante = db.Column(db.String(40)  , unique=True)
     Token_Participante = db.Column(db.String(40), unique=True)
+    time_date = db.Column(db.DateTime, default=func.now())
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 

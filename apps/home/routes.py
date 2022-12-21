@@ -149,15 +149,8 @@ def mociones_template():
 @blueprint.route('/lista')
 @login_required
 def lista_template():
-    try:
-        Usuarios = Users.query.order_by(Users.id).all()
-        return render_template('home/lista.html',segment=get_segment(request),Usuarios=Usuarios)
-
-    except TemplateNotFound:
-        return render_template('home/page-404.html'), 404
-
-    except:
-        return render_template('home/page-500.html'), 500
+    Votos = Mociones_Votos.query.all()
+    return render_template('home/lista.html',segment=get_segment(request),Votos=Votos)
 
 
 
