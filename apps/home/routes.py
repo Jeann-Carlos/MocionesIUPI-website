@@ -19,7 +19,7 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-from sqlalchemy import func, case
+from sqlalchemy import func, case, delete
 from apps.authentication.models import Mociones
 from apps.authentication.models import Users
 from apps.authentication.models import Mociones_Votos
@@ -104,9 +104,11 @@ def mociones_template():
         ## ADD
         if 'borrar' in request.args:
             Mociones.query.filter_by(PIN=int(request.args['borrar'])).delete()
+            db.session.query(Mociones_Votos).filter(Mociones_Votos.Mocion_ID == int(request.args['borrar'])).delete()
             db.session.commit()
             stmt = Mociones.query.all()
             stmt, lista_votos = format_mocion(stmt)
+
             render_template("home/mociones.html", segment=segment, stmt=stmt, lista_votos=lista_votos, zip=zip)
         if 'Add' in request.form:
             try:
@@ -160,7 +162,7 @@ def lista_template():
 
 
 def create_plot(vote,Mocion_name):
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(20, 10))
     categories = ['A Favor', 'En Contra', 'Abstenido/a']
     plt.title(f'{Mocion_name} Votes')
     plt.xlabel('Vote Quantity')
