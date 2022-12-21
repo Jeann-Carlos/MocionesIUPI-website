@@ -225,7 +225,7 @@ def recieve_encrypted_message(key,encrypted_priv_key):
 
 @blueprint.route('/vote',methods=['GET', 'POST'])
 def get_vote():
-    priv_key = b'MOCIONES_IUPI'
+    # priv_key = b'MOCIONES_IUPI'
     if 'privKey_encrypt' not in request.args:
         return 'not acknowledge'
     if 'PIN' not in request.args:
@@ -240,8 +240,6 @@ def get_vote():
             privKey_encrypt = request.args['privKey_encrypt']
             votes = request.args['votos']
             Token = request.args['Token']
-            if priv_key!=recieve_encrypted_message(priv_key,privKey_encrypt):
-                return 'not acknowledge'
             for alreadyin in db.session.query(Mociones_Votos).filter_by(Token_Participante=Token, Mocion_ID=PIN):
                 db.session.query(Mociones_Votos).filter_by(Token_Participante=Token, Mocion_ID=PIN).update({'Voto': votes})
                 db.session.commit()
