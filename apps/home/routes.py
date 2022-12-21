@@ -160,7 +160,7 @@ def lista_template():
 
 
 def create_plot(vote,Mocion_name):
-    plt.figure(figsize=(20, 10))
+    plt.figure(figsize=(15, 10))
     categories = ['A Favor', 'En Contra', 'Abstenido/a']
     plt.title(f'{Mocion_name} Votes')
     plt.xlabel('Vote Quantity')
