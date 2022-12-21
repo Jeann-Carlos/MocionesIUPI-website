@@ -7,7 +7,7 @@ import io
 import random
 import threading
 import time
-
+from pycryptodomex import AES, pad, unpad
 import requests
 from flask_restx import abort
 from google.oauth2 import id_token
@@ -222,9 +222,16 @@ def send_mociones():
             'Error': 'No hay atributo PIN encontrado.'
         }
 
+def recieve_encrypted_message(key,encrypted_priv_key):
+    cipher = AES.new(key, AES.MODE_ECB)
+    decrypted_priv_key = unpad(cipher.decrypt(encrypted_priv_key), AES.block_size)
+    return decrypted_priv_key
 
 @blueprint.route('/vote',methods=['GET', 'POST'])
 def get_vote():
+    priv_key = b'MOCIONES_IUPI'
+    if 'privKey_encrypt' not in request.args:
+        return 'not acknowledge'
     if 'PIN' not in request.args:
         return 'not acknowledge'
     if 'votos' not in request.args:
@@ -234,8 +241,11 @@ def get_vote():
     PIN = request.args['PIN']
     for Mocion in db.session.query(Mociones).filter_by(PIN=PIN):
         if Mocion.Status == 'Open':
+            privKey_encrypt = request.args['privKey_encrypt']
             votes = request.args['votos']
             Token = request.args['Token']
+            if priv_key!=recieve_encrypted_message(priv_key,privKey_encrypt):
+                return 'not acknowledge'
             for alreadyin in db.session.query(Mociones_Votos).filter_by(Token_Participante=Token, Mocion_ID=PIN):
                 db.session.query(Mociones_Votos).filter_by(Token_Participante=Token, Mocion_ID=PIN).update({'Voto': votes})
                 db.session.commit()
